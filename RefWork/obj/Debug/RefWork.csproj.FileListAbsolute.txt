@@ -1,0 +1,15 @@
+C:\Projects\RefWork\RefWork\RefWork\bin\Debug\RefWork.exe.config
+C:\Projects\RefWork\RefWork\RefWork\bin\Debug\RefWork.exe
+C:\Projects\RefWork\RefWork\RefWork\bin\Debug\RefWork.pdb
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.csprojResolveAssemblyReference.cache
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\View\MainWindow.g.cs
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\App.g.cs
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork_MarkupCompile.cache
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork_MarkupCompile.lref
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\View\MainWindow.baml
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.g.resources
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.Properties.Resources.resources
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.csproj.GenerateResource.Cache
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.csproj.CoreCompileInputs.cache
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.exe
+C:\Projects\RefWork\RefWork\RefWork\obj\Debug\RefWork.pdb

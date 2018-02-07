@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RefWork
+namespace RefWork.Model
 {
-    interface IUrlRep
+    interface ILogger
     {
-        IEnumerable<string> GetUrls();
+        void LogInfo(string msg);
+        void LogError(string msg);
     }
 }
