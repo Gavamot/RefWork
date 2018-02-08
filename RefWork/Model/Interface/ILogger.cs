@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RefWork.Model
 {
-    interface ILogger
+    public interface ILogger
     {
         void LogInfo(string msg);
         void LogError(string msg);

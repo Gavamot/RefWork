@@ -9,14 +9,12 @@ using System.Xml;
 
 namespace RefWork.Model
 {
-    class WebSite : ISiteLoader
+    public class WebSite : ISiteLoader
     {
-        public XmlDocument GetDom(Uri url)
+        public string GetContent(Uri url)
         {
             var client = new WebClient();
-            string str = client.DownloadString(url);
-            var res = new XmlDocument();
-            res.Load(str);
+            string res = client.DownloadString(url);
             return res;
         }
     }

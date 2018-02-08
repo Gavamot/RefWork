@@ -7,8 +7,8 @@ using System.Xml;
 
 namespace RefWork.Model
 {
-    interface ISiteLoader
+    public interface ISiteLoader
     {
-        XmlDocument GetDom(Uri url);
+        string GetContent(Uri url);
     }
 }

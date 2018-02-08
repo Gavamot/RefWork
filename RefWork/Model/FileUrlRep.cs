@@ -11,19 +11,16 @@ namespace RefWork.Model
     /// <summary>
     /// Read url from file
     /// </summary>
-    class FileUrlRep : IUrlRep
+    public class FileUrlRep : IUrlRep
     {
-        public string fileName { get; set; }
-        public ILogger logger { get; set; }
-
-        public FileUrlRep(ILogger logger)
+        public FileUrlRep()
         {
-            this.logger = logger;
+
         }
 
-        public IEnumerable<Uri> GetUris()
+        public IEnumerable<Uri> GetUris(string parameter)
         {
-            using (StreamReader sr = new StreamReader(fileName))
+            using (StreamReader sr = new StreamReader(parameter))
             {
                 while (sr.Peek() >= 0)
                 {
@@ -37,7 +34,7 @@ namespace RefWork.Model
                     }
                     catch (UriFormatException e)
                     {
-                        logger.LogError($"Uri Format Exception - {str}");
+
                     }
                     yield return uri;
                 }

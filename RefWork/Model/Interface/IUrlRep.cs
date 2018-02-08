@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RefWork.Model
 {
-    interface IUrlRep
+    public interface IUrlRep
     {
-        IEnumerable<Uri> GetUris();
+        IEnumerable<Uri> GetUris(string parameter);
     }
 }

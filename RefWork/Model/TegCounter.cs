@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using RefWork.Model.Interface;
+using HtmlAgilityPack;
 
 namespace RefWork.Model
 {
-    class TegCounter : ITegCounter
+    public class TegCounter : ITegCounter
     {
-        public int CountTegs(XmlDocument doc, string tegName)
+        public int? CountTegs(string content, string tegName)
         {
-            return doc.GetElementsByTagName(tegName).Count;
+            var doc = new HtmlDocument();
+            doc.LoadHtml(content);
+        
+            var nodes = doc.DocumentNode.SelectNodes("//" + tegName);
+            return nodes?.Count;
         }
     }
 }

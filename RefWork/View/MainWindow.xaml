@@ -5,49 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:RefWork.ViewModel"
         xmlns:local="clr-namespace:RefWork.View"
+        xmlns:viewModel="clr-namespace:RefWork.ViewModel"
         mc:Ignorable="d"
-        Title="Nodes counter">
-    <DockPanel LastChildFill="True" DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
+        Title="Nodes counter"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Margin" Value="10,10,10,10" />
+            </Style>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="10,10,10,10" />
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="MinWidth" Value="90" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="10,10,10,10" />
+            </Style>
+            <Style x:Key="SmallText" TargetType="TextBox">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Width" Value="100"/>
+            </Style>
+            <Style x:Key="BigText" TargetType="TextBox">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Width" Value="300"/>
+            </Style>
+            <Style x:Key="ProgreesBar" TargetType="ProgressBar">
+                <Setter Property="Margin" Value="20 0 10 0" />
+                <Setter Property="Width" Value="300"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <ListBox DockPanel.Dock="Left" ItemsSource="{Binding EmployeeList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedEmployee}" Width="100" />
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding ObservePath}">Path</Button>
+            <TextBox Style="{StaticResource BigText}" Text="{Binding Path=Path, Mode=TwoWay}"></TextBox>
+            <Button Command="{Binding ReadFile}">Read file</Button>
+        </StackPanel>
 
-        <DockPanel DockPanel.Dock="Bottom">
-            <Button DockPanel.Dock="Left" Content="Load Employees" Width="200" Height="25" Command="{Binding LoadEmployeesCommand}" />
-            <Button DockPanel.Dock="Right" Content="Save Employees" Width="200" Height="25" Command="{Binding SaveEmployeesCommand}" />
-        </DockPanel>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Path=RowsUrl}" AutoGenerateColumns="False" CanUserAddRows="false" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Url" Binding="{ Binding Path=Name, Mode=OneWay }" Width="90*"/>
+                <DataGridTextColumn Header="Tegs count" Binding="{ Binding TargetNullValue=N/A, Path=TegsCount, Mode=OneWay }" Width="10*" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <Grid HorizontalAlignment="Center">
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Height" Value="25" />
-                    <Setter Property="Margin" Value="10,10,0,0" />
-                </Style>
-                <Style TargetType="{x:Type Label}">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                </Style>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Content="ID" />
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEmployee.ID}" />
-
-            <Label Grid.Row="1" Grid.Column="0" Content="Name" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEmployee.Name}" />
-
-            <Label Grid.Row="2" Grid.Column="0" Content="Age" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedEmployee.Age}" />
-
-            <Label Grid.Row="3" Grid.Column="0" Content="Salary" />
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedEmployee.Salary}" />
+            <Label Grid.Column="0">Teg name</Label>
+            <TextBox Style="{StaticResource SmallText}" Grid.Column="1" Text="{Binding Path=Teg, Mode=TwoWay}" Width="100"></TextBox>
+            <Button Grid.Column="2" Command="{Binding Analysis}">Analysis</Button>
+            <ProgressBar Grid.Column="4" Value="{Binding Path=Progress, Mode=OneWay}" Style="{StaticResource ProgreesBar }" />
         </Grid>
-    </DockPanel>
+      
+    </Grid>
 </Window>

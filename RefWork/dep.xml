@@ -1,0 +1,6 @@
+﻿<module name="MainModule">
+  <bind name="DocSer1"  service="RefWork.Model.IUrlRep, RefWork" toProvider="RefWork.Model.FileUrlRep, RefWork"/>
+  <bind name="DocSer2"  service="RefWork.Model.ILogger, RefWork" to="RefWork.Model.Logger, RefWork"/>
+  <bind name="DocSer3"  service="RefWork.Model.ISiteLoader, RefWork" toProvider="RefWork.Model.WebSite, RefWork"/>
+  <bind name="DocSer4"  service="RefWork.Model.ITegCounter, RefWork" toProvider="RefWork.Model.TegCounter, RefWork"/>
+</module>

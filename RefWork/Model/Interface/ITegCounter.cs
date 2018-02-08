@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace RefWork.Model.Interface
+namespace RefWork.Model
 {
-    interface ITegCounter
+    public interface ITegCounter
     {
-        int CountTegs(XmlDocument doc, string tegName);
+        int? CountTegs(string content, string tegName);
     }
 }

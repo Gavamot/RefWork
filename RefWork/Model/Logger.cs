@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RefWork.Model
 {
-    class Logger : ILogger
+    public class Logger : ILogger
     {
         public event EventHandler<string> OnLogInfoAct;
         public event EventHandler<string> OnLogErrorAct;
