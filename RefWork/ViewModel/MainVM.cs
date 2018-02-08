@@ -111,7 +111,7 @@ namespace RefWork.ViewModel
             { 
                 Parallel.ForEach(RowsUrl, new ParallelOptions(), (item, loopState) =>
                 {
-                    string content = "";
+                    string content = null;
                     try
                     {
                         content = loader.GetContent(item.Url);
@@ -119,7 +119,6 @@ namespace RefWork.ViewModel
                     catch (Exception e)
                     {
                         MessageBox.Show($"({item.Name}) Could not get a information by a url");
-                        return;
                     }
 
                     try
