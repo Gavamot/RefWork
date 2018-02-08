@@ -14,9 +14,8 @@ namespace RefWork.Model
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(content);
-        
             var nodes = doc.DocumentNode.SelectNodes("//" + tegName);
-            return nodes?.Count;
+            return nodes == null ? 0 : nodes.Count;
         }
     }
 }

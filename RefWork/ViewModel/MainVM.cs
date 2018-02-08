@@ -17,20 +17,52 @@ namespace RefWork.ViewModel
     public class MainVM : ViewModelBase
     {
         public ObservableCollection<RowUrl> RowsUrl { get; set; }
-        public string Path { get; set; } = "./url.txt";
+
         public string Teg { get; set; } = "a";
 
-        public int Progress { get; set; } = 0;
+        private string path = "./url.txt";
+        public string Path
+        {
+            get { return path; }
+            set
+            {
+                path = value;
+                RaisePropertyChanged("Path");
+            }
+        }
+      
         private object ProgressSync = new object();
-        public int ProgressCompleteCount;
+        private int progress;
+        public int Progress {
+            get { return progress; }
+            set
+            {
+                progress = value < 0 ? 0 : value;
+                RaisePropertyChanged("Progress");
+            }
+        }
+
+        private bool isButtonsEnable = true;
+        public bool IsButtonsEnable
+        {
+            get { return isButtonsEnable; }
+            set
+            {
+                isButtonsEnable = value;
+                RaisePropertyChanged("IsButtonsEnable");
+            }
+        } 
 
         private readonly IUrlRep urlRep;
-       
-
-        public MainVM(IUrlRep urlRep)
+        private readonly ISiteLoader loader;
+        private readonly ITegCounter tegCounter;
+        
+        public MainVM(IUrlRep urlRep, ISiteLoader loader, ITegCounter tegCounter)
         {
             RowsUrl = new ObservableCollection<RowUrl>();
             this.urlRep = urlRep;
+            this.loader = loader;
+            this.tegCounter = tegCounter;
         }
 
         public RelayCommand ObservePath => new RelayCommand(() =>
@@ -46,6 +78,7 @@ namespace RefWork.ViewModel
 
         public RelayCommand ReadFile => new RelayCommand(() =>
         {
+            Progress = 0;
             if (string.IsNullOrEmpty(Path)) return;
             try
             {
@@ -66,33 +99,51 @@ namespace RefWork.ViewModel
 
         public RelayCommand Analysis => new RelayCommand(() =>
         {
+            if (RowsUrl.Count == 0)
+                return;
+
+            IsButtonsEnable = false;
             Progress = 0;
             int rowsCount = RowsUrl.Count;
+            int ProgressCompleteCount = 0;
+
             Task.Run(() =>
             { 
                 Parallel.ForEach(RowsUrl, new ParallelOptions(), (item, loopState) =>
                 {
-                    Task.Delay(new Random(DateTime.Now.Millisecond).Next(4000, 20000));
-                    ISiteLoader loader = new WebSite();
+                    string content = "";
                     try
                     {
-                        string content = loader.GetContent(item.Url);
-                        ITegCounter tegCounter = new TegCounter();
-                        item.TegsCount = tegCounter.CountTegs(content, Teg);
-                        lock (ProgressSync)
-                        {
-                            ProgressCompleteCount++;
-                            Progress = (int)(100 * ((double)ProgressCompleteCount / rowsCount));
-                            RaisePropertyChanged("Progress");
-                        }
+                        content = loader.GetContent(item.Url);
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show($"({item.Name}) Could not get a information by a url");
+                        return;
+                    }
+
+                    try
+                    {
+                        item.TegsCount = tegCounter.CountTegs(content, Teg);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show($"({item.Name}) haves bad a teg or a content");
+                    }
+                    finally
+                    {
+                        lock (ProgressSync)
+                        {
+                            ProgressCompleteCount++;
+                            Progress = (int)(100 * ((double)ProgressCompleteCount / rowsCount));
+                            if (ProgressCompleteCount == rowsCount)
+                                IsButtonsEnable = true;
+                        }
                     }
                 });
             });
 
         });
+
     }
 }

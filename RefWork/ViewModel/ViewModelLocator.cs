@@ -35,12 +35,13 @@ namespace RefWork.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // Create design time view services and models
-                SimpleIoc.Default.Register<IUrlRep, FileUrlRep>();
             }
             else
             {
                 // Create run time view services and models
                 SimpleIoc.Default.Register<IUrlRep, FileUrlRep>();
+                SimpleIoc.Default.Register<ITegCounter, TegCounter>();
+                SimpleIoc.Default.Register<ISiteLoader, WebSiteLoader>();
             }
 
             SimpleIoc.Default.Register<MainVM>();

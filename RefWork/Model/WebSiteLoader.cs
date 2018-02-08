@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-
 namespace RefWork.Model
 {
-    public class WebSite : ISiteLoader
+    public class WebSiteLoader : ISiteLoader
     {
         public string GetContent(Uri url)
         {

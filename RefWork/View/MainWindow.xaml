@@ -11,11 +11,6 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
         <Grid.Resources>
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="Height" Value="25" />
-                <Setter Property="Width" Value="100"/>
-                <Setter Property="Margin" Value="10,10,10,10" />
-            </Style>
             <Style TargetType="{x:Type Label}">
                 <Setter Property="Height" Value="25" />
                 <Setter Property="Margin" Value="10,10,10,10" />
@@ -52,7 +47,7 @@
         <StackPanel Orientation="Horizontal">
             <Button Command="{Binding ObservePath}">Path</Button>
             <TextBox Style="{StaticResource BigText}" Text="{Binding Path=Path, Mode=TwoWay}"></TextBox>
-            <Button Command="{Binding ReadFile}">Read file</Button>
+            <Button IsEnabled="{Binding Path=IsButtonsEnable}" Command="{Binding ReadFile}">Read file</Button>
         </StackPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding Path=RowsUrl}" AutoGenerateColumns="False" CanUserAddRows="false" >
@@ -64,7 +59,7 @@
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="85" />
                 <ColumnDefinition Width="130" />
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="150" />
@@ -72,7 +67,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0">Teg name</Label>
             <TextBox Style="{StaticResource SmallText}" Grid.Column="1" Text="{Binding Path=Teg, Mode=TwoWay}" Width="100"></TextBox>
-            <Button Grid.Column="2" Command="{Binding Analysis}">Analysis</Button>
+            <Button Grid.Column="2" IsEnabled="{Binding Path=IsButtonsEnable}" Command="{Binding Analysis}">Analysis</Button>
             <ProgressBar Grid.Column="4" Value="{Binding Path=Progress, Mode=OneWay}" Style="{StaticResource ProgreesBar }" />
         </Grid>
       

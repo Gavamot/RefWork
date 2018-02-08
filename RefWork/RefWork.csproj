@@ -79,11 +79,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\Interface\ILogger.cs" />
     <Compile Include="Model\Interface\ISiteLoader.cs" />
     <Compile Include="Model\Interface\ITegCounter.cs" />
     <Compile Include="Model\Interface\IUrlRep.cs" />
-    <Compile Include="Model\Logger.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\Class\RowUrl.cs" />
@@ -94,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\TegCounter.cs" />
-    <Compile Include="Model\WebSite.cs" />
+    <Compile Include="Model\WebSiteLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
