@@ -34,7 +34,7 @@ namespace RefWork.Model
                     }
                     catch (UriFormatException e)
                     {
-
+                   
                     }
                     yield return uri;
                 }

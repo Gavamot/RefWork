@@ -9,6 +9,6 @@ namespace RefWork.Model
 {
     public interface ITegCounter
     {
-        int? CountTegs(string content, string tegName);
+        int CountTegs(string content, string tegName);
     }
 }

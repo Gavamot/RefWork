@@ -111,23 +111,14 @@ namespace RefWork.ViewModel
             { 
                 Parallel.ForEach(RowsUrl, new ParallelOptions(), (item, loopState) =>
                 {
-                    string content = null;
                     try
                     {
-                        content = loader.GetContent(item.Url);
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show($"({item.Name}) Could not get a information by a url");
-                    }
-
-                    try
-                    {
+                        string content = loader.GetContent(item.Url);
                         item.TegsCount = tegCounter.CountTegs(content, Teg);
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show($"({item.Name}) haves bad a teg or a content");
+                        MessageBox.Show(e.Message);
                     }
                     finally
                     {
