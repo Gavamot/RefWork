@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\1\RefWork\RefWork\obj\Debug\
+D:\1\RefWork\RefWork\obj\Release\
 RefWork
 none
 false
-DEBUG;TRACE
+TRACE
 D:\1\RefWork\RefWork\App.xaml
 1-1711142684
 1-1651801083
-191587954845
+15-541004348
 73438027215
 View\MainWindow.xaml;
 
-False
+True
 
