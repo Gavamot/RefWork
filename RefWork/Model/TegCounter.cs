@@ -27,6 +27,8 @@ namespace RefWork.Model
             var doc = new HtmlDocument();
             doc.LoadHtml(content);
             var nodes = doc.DocumentNode.SelectNodes("//" + tegName);
+            if(nodes == null)
+                return new string[0];
             return nodes.Select(x => x.OuterHtml);
         }
     }
