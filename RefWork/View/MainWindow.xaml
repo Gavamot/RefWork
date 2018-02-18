@@ -6,6 +6,8 @@
         xmlns:vm="clr-namespace:RefWork.ViewModel"
         xmlns:local="clr-namespace:RefWork.View"
         xmlns:viewModel="clr-namespace:RefWork.ViewModel"
+        xmlns:refWork="clr-namespace:RefWork"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Nodes counter"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
@@ -30,7 +32,7 @@
             </Style>
             <Style x:Key="ProgreesBar" TargetType="ProgressBar">
                 <Setter Property="Margin" Value="20 0 10 0" />
-                <Setter Property="Width" Value="300"/>
+                <Setter Property="Width" Value="220"/>
                 <Setter Property="Height" Value="30"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
             </Style>
@@ -42,22 +44,36 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal"  Grid.ColumnSpan="2">
             <Button Command="{Binding ObservePath}">Path</Button>
             <TextBox Style="{StaticResource BigText}" Text="{Binding Path=Path, Mode=TwoWay}"></TextBox>
             <Button IsEnabled="{Binding Path=IsButtonsEnable}" Command="{Binding ReadFile}">Read file</Button>
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Path=RowsUrl}" AutoGenerateColumns="False" CanUserAddRows="false" >
+        <DataGrid Grid.Row="1" SelectedItem="{Binding SelectedRowUrl, Mode=TwoWay}" ItemsSource="{Binding Path=RowsUrl}" AutoGenerateColumns="False" CanUserAddRows="false" >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLider}" Value="false">
+                            <Setter Property="FontSize" Value="12"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLider}" Value="true">
+                            <Setter Property="FontSize" Value="15"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Url" Binding="{ Binding Path=Name, Mode=OneWay }" Width="90*"/>
-                <DataGridTextColumn Header="Tegs count" Binding="{ Binding TargetNullValue=N/A, Path=TegsCount, Mode=OneWay }" Width="10*" />
+                <DataGridTextColumn Header="Url" Binding="{ Binding Path=Name, Mode=OneWay }" Width="2*"/>
+                <DataGridTextColumn   Header="Tegs count" Binding="{ Binding TargetNullValue=N/A, Path=TegsCount, Mode=OneWay }" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
-
-        <Grid Grid.Row="2">
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=SelectedRowUrl.Tegs}" CanUserAddRows="false" >
+        </DataGrid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="85" />
                 <ColumnDefinition Width="130" />
@@ -68,8 +84,8 @@
             <Label Grid.Column="0">Teg name</Label>
             <TextBox Style="{StaticResource SmallText}" Grid.Column="1" Text="{Binding Path=Teg, Mode=TwoWay}" Width="100"></TextBox>
             <Button Grid.Column="2" IsEnabled="{Binding Path=IsButtonsEnable}" Command="{Binding Analysis}">Analysis</Button>
-            <ProgressBar Grid.Column="4" Value="{Binding Path=Progress, Mode=OneWay}" Style="{StaticResource ProgreesBar }" />
+            <ProgressBar Grid.Column="4" Value="{Binding Path=Progress, Mode=OneWay}" Style="{StaticResource ProgreesBar }" Margin="0,8,10,7"/>
         </Grid>
-      
+
     </Grid>
 </Window>

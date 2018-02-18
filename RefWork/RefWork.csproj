@@ -84,6 +84,7 @@
     <Compile Include="Model\Interface\ITegCounter.cs" />
     <Compile Include="Model\TegCounter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModel\Class\ValueWrapper.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\Class\RowUrl.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

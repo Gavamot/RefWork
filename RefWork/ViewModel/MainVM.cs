@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using RefWork.Model;
+using RefWork.ViewModel.Class;
 
 
 namespace RefWork.ViewModel
@@ -18,12 +19,25 @@ namespace RefWork.ViewModel
     {
         public ObservableCollection<RowUrl> RowsUrl { get; set; }
 
+        private RowUrl selectedRowUrl;
+        public RowUrl SelectedRowUrl
+        {
+            get => selectedRowUrl;
+            set
+            {
+                selectedRowUrl = value;
+                RaisePropertyChanged("SelectedRowUrl");
+            }
+        }
+
         public string Teg { get; set; } = "a";
+        
+        public ValueWrapper<int> MaxTegs { get; set; }
 
         private string path = "./url.txt";
         public string Path
         {
-            get { return path; }
+            get => path;
             set
             {
                 path = value;
@@ -31,10 +45,9 @@ namespace RefWork.ViewModel
             }
         }
       
-        private object ProgressSync = new object();
         private int progress;
         public int Progress {
-            get { return progress; }
+            get => progress;
             set
             {
                 progress = value < 0 ? 0 : value;
@@ -45,7 +58,7 @@ namespace RefWork.ViewModel
         private bool isButtonsEnable = true;
         public bool IsButtonsEnable
         {
-            get { return isButtonsEnable; }
+            get => isButtonsEnable;
             set
             {
                 isButtonsEnable = value;
@@ -56,7 +69,7 @@ namespace RefWork.ViewModel
         private readonly IUrlRep urlRep;
         private readonly ISiteLoader loader;
         private readonly ITegCounter tegCounter;
-        
+
         public MainVM(IUrlRep urlRep, ISiteLoader loader, ITegCounter tegCounter)
         {
             RowsUrl = new ObservableCollection<RowUrl>();
@@ -96,44 +109,50 @@ namespace RefWork.ViewModel
             }
         });
 
-
         public RelayCommand Analysis => new RelayCommand(() =>
         {
             if (RowsUrl.Count == 0)
                 return;
-
             IsButtonsEnable = false;
             Progress = 0;
-            int rowsCount = RowsUrl.Count;
-            int ProgressCompleteCount = 0;
-
-            Task.Run(() =>
-            { 
-                Parallel.ForEach(RowsUrl, new ParallelOptions(), (item, loopState) =>
-                {
-                    try
-                    {
-                        string content = loader.GetContent(item.Url);
-                        item.Tegs = tegCounter.GetTegs(content, Teg).ToList();
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message);
-                    }
-                    finally
-                    {
-                        lock (ProgressSync)
-                        {
-                            ProgressCompleteCount++;
-                            Progress = (int)(100 * ((double)ProgressCompleteCount / rowsCount));
-                            if (ProgressCompleteCount == rowsCount)
-                                IsButtonsEnable = true;
-                        }
-                    }
-                });
-            });
-
+            Task.Run((Action)MakeRowsAnalize);
         });
 
+        private void MakeRowsAnalize()
+        {
+            int rowsCount = RowsUrl.Count;
+            int progressCompleteCount = 0;
+            object progressSync = new object();
+            Parallel.ForEach(RowsUrl, new ParallelOptions(), (item, loopState) =>
+            {
+                try
+                {
+                    string content = loader.GetContent(item.Url);
+                    item.Tegs = tegCounter.GetTegs(content, Teg)
+                        .Select(x => new ValueWrapper<string>(x))
+                        .ToList();
+                    RaisePropertyChanged("SelectedRowUrl");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                finally
+                {
+                    lock (progressSync)
+                    {
+                        progressCompleteCount++;
+                        Progress = (int)(100 * ((double)progressCompleteCount / rowsCount));
+                        if (progressCompleteCount == rowsCount)
+                            IsButtonsEnable = true;
+                    }
+                }
+            });
+            MaxTegs = new ValueWrapper<int>(RowsUrl.Max(x => x.TegsCount ?? -1));
+            foreach (var row in RowsUrl)
+            {
+                row.MaxTegs = MaxTegs;
+            }
+        }
     }
 }

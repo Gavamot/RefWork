@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using RefWork.Annotations;
+using RefWork.ViewModel.Class;
 
 namespace RefWork.ViewModel
 {
@@ -31,9 +32,8 @@ namespace RefWork.ViewModel
 
         public string Name => Url.AbsoluteUri;
 
-        private List<string> tegs;
-
-        public List<string> Tegs
+        private List<ValueWrapper<string>> tegs;
+        public List<ValueWrapper<string>> Tegs
         {
             get => tegs;
             set
@@ -44,7 +44,20 @@ namespace RefWork.ViewModel
             }
         }
 
+        public bool IsLider { get; private set; }
         public int? TegsCount { get; private set; }
+
+        private ValueWrapper<int> maxTegs = new ValueWrapper<int>(-1);
+        public ValueWrapper<int> MaxTegs
+        {
+            get => maxTegs;
+            set
+            {
+                maxTegs = value;
+                IsLider = value.Value == TegsCount;
+                OnPropertyChanged("IsLider");
+            }
+        } 
 
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
