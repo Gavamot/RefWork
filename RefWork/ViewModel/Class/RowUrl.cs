@@ -31,16 +31,20 @@ namespace RefWork.ViewModel
 
         public string Name => Url.AbsoluteUri;
 
-        private int? tegsCount;
-        public int? TegsCount
+        private List<string> tegs;
+
+        public List<string> Tegs
         {
-            get => tegsCount;
+            get => tegs;
             set
             {
-                this.tegsCount = value;
-                OnPropertyChanged();
+                tegs = value;
+                TegsCount = value?.Count;
+                OnPropertyChanged("TegsCount");
             }
         }
+
+        public int? TegsCount { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]

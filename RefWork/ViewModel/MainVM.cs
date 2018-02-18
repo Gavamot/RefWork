@@ -114,7 +114,7 @@ namespace RefWork.ViewModel
                     try
                     {
                         string content = loader.GetContent(item.Url);
-                        item.TegsCount = tegCounter.CountTegs(content, Teg);
+                        item.Tegs = tegCounter.GetTegs(content, Teg).ToList();
                     }
                     catch (Exception e)
                     {
